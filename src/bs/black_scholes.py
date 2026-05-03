@@ -1,24 +1,18 @@
 import numpy as np
 from scipy.stats import norm # Todo: Implement your own CDF
 
-class BlackScholes:
-    def __init__(self, S, K, T, r, sigma):
-        self.S = S  # Stock price
-        self.K = K  # Strike price
-        self.T = T  # Time to maturity
-        self.r = r  # Risk-free rate
-        self.sigma = sigma  # Volatility
+def _d1(S, K, T, r, d, sigma):
+    return (np.log(S/K) + (r - d + (sigma ** 2) / 2) * T) / (sigma * np.sqrt(T))
 
-    @property
-    def d1(self):
-        return (np.log(self.S/self.K) + (self.r + (self.sigma ** 2) / 2) * self.T) / (self.sigma * np.sqrt(self.T))
-    
-    @property
-    def d2(self):
-        return self.d1 - self.sigma * np.sqrt(self.T)
+def _d2(S, K, T, r, d, sigma):
+    return _d1(S, K, T, r, d, sigma) - sigma * np.sqrt(T)
 
-    def call_price(self):
-        return (self.S * norm.cdf(self.d1)) - (self.K * (np.exp(-self.r * self.T)) * norm.cdf(self.d2))
+def call_price(S, K, T, r, d, sigma):
+    d1 = _d1(S, K, T, r, d, sigma)
+    d2 = _d2(S, K, T, r, d, sigma)
+    return (S * np.exp(-d * T) * norm.cdf(d1)) - (K * np.exp(-r * T) * norm.cdf(d2))
 
-    def put_price(self):
-        return (self.K * (np.exp(-self.r * self.T)) * norm.cdf(-self.d2)) - (self.S * norm.cdf(-self.d1))
+def put_price(S, K, T, r, d, sigma):
+    d1 = _d1(S, K, T, r, d, sigma)
+    d2 = _d2(S, K, T, r, d, sigma)
+    return (K * np.exp(-r * T) * norm.cdf(-d2)) - (S * np.exp(-d * T) * norm.cdf(-d1))
