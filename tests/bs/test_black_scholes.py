@@ -1,4 +1,4 @@
-from bs import black_scholes
+import black_scholes
 import numpy as np
 
 EPSILON = 1e-4
@@ -114,3 +114,20 @@ def test_forward_and_option_parity():
     put_price = black_scholes.put_price(S, K, T, r, d, sigma)
 
     assert abs(forward_contract_price - (call_price - put_price)) < EPSILON
+
+def test_bs_call_price_convexity_in_strike():
+    S = 100  # Stock price
+    T = 1    # Time to maturity (1 year)
+    r = 0.05 # Risk-free rate
+    d = 0.02 # Dividend yield
+    sigma = 0.2 # Volatility
+
+    K1 = 90
+    K2 = 100
+    K3 = 110
+
+    call_price_K1 = black_scholes.call_price(S, K1, T, r, d, sigma)
+    call_price_K2 = black_scholes.call_price(S, K2, T, r, d, sigma)
+    call_price_K3 = black_scholes.call_price(S, K3, T, r, d, sigma)
+
+    assert call_price_K2 < (call_price_K1 + call_price_K3) / 2
