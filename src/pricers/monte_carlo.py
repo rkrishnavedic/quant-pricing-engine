@@ -1,7 +1,8 @@
+from .base import Pricer
 from random_numbers import NumpyRNG
 import numpy as np
 
-class MonteCarloPricer:
+class MonteCarloPricer(Pricer):
     def __init__(self, model):
         self.model = model
     
