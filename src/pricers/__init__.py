@@ -1,1 +1,1 @@
-from .pricer import MonteCarloPricer
+from .monte_carlo import MonteCarloPricer
