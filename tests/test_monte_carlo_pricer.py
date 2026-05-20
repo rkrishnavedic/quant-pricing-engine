@@ -1,5 +1,5 @@
 from models import GeometricBrownianMotion
-from monte_carlo import MonteCarloPricer
+from pricers import MonteCarloPricer
 from options import EuropeanCallOption
 from black_scholes import black_scholes
 from random_numbers import NumpyRNG

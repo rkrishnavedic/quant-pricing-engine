@@ -6,7 +6,7 @@ class MonteCarloPricer(Pricer):
     def __init__(self, model):
         self.model = model
     
-    def price(self, option, T, n_paths, r):
+    def price(self, option, T, r, n_paths, **model_kwargs):
         """
         Price an option using Monte Carlo simulation.
             option: An instance of an Option subclass
@@ -17,7 +17,7 @@ class MonteCarloPricer(Pricer):
             Estimated option price
         """
         # Simulate terminal stock prices
-        S_T = self.model.simulate_terminal(T, n_paths)
+        S_T = self.model.simulate_terminal(T, n_paths, **model_kwargs)
         
         # Calculate payoffs for each path
         payoffs = option.payoff(S_T)
