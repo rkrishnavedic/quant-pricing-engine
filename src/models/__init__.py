@@ -1,1 +1,2 @@
 from .exact_gbm import GeometricBrownianMotion
+from .path_gbm import PathGeometricBrownianMotion

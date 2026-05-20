@@ -14,7 +14,7 @@ class PathGeometricBrownianMotion:
         self.sigma = sigma
         self.rng = rng if rng is not None else NumpyRNG()
 
-    def simulate_paths(self, T, n_steps, n_paths):
+    def simulate_paths(self, T, n_paths, n_steps):
         """
         Simulate GBM paths using Euler discretization.
 
@@ -33,9 +33,9 @@ class PathGeometricBrownianMotion:
             )
         return paths
 
-    def simulate_terminal(self, T, n_steps, n_paths):
+    def simulate_terminal(self, T, n_paths, n_steps):
         """
         Simulate terminal prices S_T using Euler paths.
         """
-        paths = self.simulate_paths(T, n_steps, n_paths)
+        paths = self.simulate_paths(T, n_paths, n_steps)
         return paths[:, -1]
